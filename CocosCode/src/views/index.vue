@@ -1,53 +1,194 @@
-<style scoped lang="less">
-    .index{
-        width: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        text-align: center;
-        h1{
-            height: 150px;
-            img{
-                height: 100%;
-            }
-        }
-        h2{
-            color: #666;
-            margin-bottom: 200px;
-            p{
-                margin: 0 0 50px;
-            }
-        }
-        .ivu-row-flex{
-            height: 100%;
-        }
-    }
+<style scoped>
+.layout{
+    border: 1px solid #d7dde4;
+    background: #f5f7f9;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.Menu{
+    background: black;
+    display: flex;
+    justify-content: space-between;
+}
+.layout-logo{
+   position: relative;
+   float: left;
+   left: 0px;
+   height: 90%;
+}
+.layout-nav{
+    margin: 0 auto;
+    margin-right: 20px;
+}
+
+.sider-left{
+    display: flex;
+    justify-content: center;
+}
+.sider-search{
+    width: 150px;
+    height: 30px;
+    background: #5b6270;
+    border-radius: 3px;
+	color: white;
+    margin: 10px 0;
+}
+
+.topbar{
+    display: flex;
+	width: 100%;
+	height: 70px;
+	justify-content: space-between;
+	align-items: center;
+}
+.topbar_tab1{
+	margin-left: 15px;
+}
+.topbar_tab2{
+	width: 70%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.topbar_tab2_qr{
+	width: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
 </style>
 <template>
-    <div class="index">
-        <Row type="flex" justify="center" align="middle">
-            <Col span="24">
-                <h1>
-                    <img src="../images/logo.png">
-                </h1>
-                <h2>
-                    <p>Welcome to your iView app!</p>
-                    <Button @click="handleStart">Start iView5</Button>
-                </h2>
-            </Col>
-        </Row>
+    <div class="layout">
+        <Layout>
+            <Header style="background: black;">
+                <Menu mode="horizontal" theme="dark" class="Menu" active-name="1">
+                    <img src="../images/logo.png" class="layout-logo"/>
+                    <div class="layout-nav">
+                        <MenuItem name="1">
+                            <Icon type="ios-cloud-upload" />
+                            上传
+                        </MenuItem>
+                        <MenuItem name="2">
+                            <Icon type="ios-book" />
+                            API
+                        </MenuItem>
+                        <MenuItem name="3">
+                            <Icon type="logo-github" />
+                            Github
+                        </MenuItem>
+                        <MenuItem name="4">
+                            <Icon type="ios-heart" />
+                            赞助
+                        </MenuItem>
+                    </div>
+                </Menu>
+            </Header>
+            <Layout>
+                <Sider hide-trigger :style="{background: '#fff'}" class="sider-left">
+                    <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+                        <Input search placeholder="输入关键字" class="sider-search" />
+                        <Submenu name="1">
+                            <template slot="title">
+                                <Icon type="ios-navigate"></Icon>
+                                Item 1
+                            </template>
+                            <MenuItem name="1-1">Option 1</MenuItem>
+                            <MenuItem name="1-2">Option 2</MenuItem>
+                            <MenuItem name="1-3">Option 3</MenuItem>
+                        </Submenu>
+                        <Submenu name="2">
+                            <template slot="title">
+                                <Icon type="ios-keypad"></Icon>
+                                Item 2
+                            </template>
+                            <MenuItem name="2-1">Option 1</MenuItem>
+                            <MenuItem name="2-2">Option 2</MenuItem>
+                        </Submenu>
+                        <Submenu name="3">
+                            <template slot="title">
+                                <Icon type="ios-analytics"></Icon>
+                                微信小游戏
+                            </template>
+                            <MenuItem name="3-1" @click="clickItem(2)">分享</MenuItem>
+                            <MenuItem name="3-2">开放数据域</MenuItem>
+                        </Submenu>
+                    </Menu>
+                </Sider>
+                <Layout :style="{padding: '0 0px 10px'}">
+					<div class="topbar">
+						<Breadcrumb class="topbar_tab1">
+							<BreadcrumbItem to="/"><Icon type="ios-home-outline"></Icon> Home</BreadcrumbItem>
+							<BreadcrumbItem><Icon type="ios-cafe"></Icon> Breadcrumb</BreadcrumbItem>
+						</Breadcrumb>
+						<div class="topbar_tab2">
+							<Button type="primary" shape="circle" icon="ios-cloud-download-outline" style="margin-right: 10px;">下载</Button>
+							<Button type="primary" shape="circle" icon="md-copy" @click="clickItem(1)">复制</Button>
+							<div class="topbar_tab2_qr">
+								<Button type="dashed"><Icon type="md-qr-scanner" /> 二维码</Button>
+							</div>
+						</div>
+					</div>
+                    
+                    <Content :style="{padding: '4px', minHeight: '280px', background: '#fff'}">
+                        <Row :gutter="16">
+                            <Col span="16">
+                                <MonacoEditor style="margin-left: 0px;"
+                                    height="600"
+                                    language="typescript"
+                                    theme="vs"
+                                    :code="code"
+                                    :editorOptions="options"
+                                    @mounted="onMounted"
+                                    @codeChange="onCodeChange">
+                                </MonacoEditor>
+                            </Col>
+                            
+                            <Col span="8">
+                                <div>col-8</div>
+                            </Col>
+                        </Row>
+                    </Content>
+                </Layout>
+                
+            </Layout>
+        </Layout>
     </div>
 </template>
 <script>
+    import MonacoEditor from 'vue-monaco-editor'
     export default {
-        methods: {
-            handleStart () {
-                this.$Modal.info({
-                    title: 'Bravo',
-                    content: 'Now, enjoy the convenience of iView.'
-                });
+        components: {
+            MonacoEditor
+        },
+        data () {
+            return {
+                code: [
+                    'function x() {',
+                    '\tconsole.log("Hello world!");',
+                    '}'
+                ].join('\n'),
+                options: {
+                    selectOnLineNumbers: false
+                }
             }
+        },
+        methods: {
+            onMounted(editor) {
+				this.editor = editor;
+            },
+            onCodeChange(editor) {
+				console.log(this.editor.getValue());
+            },
+			clickItem(e){
+				
+				console.log("=========",e);
+			}
         }
     }
+
+
 </script>
