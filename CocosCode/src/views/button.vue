@@ -6,21 +6,34 @@
     border-radius: 4px;
     overflow: hidden;
 }
+
+.Menu{
+    background: black;
+    display: flex;
+    justify-content: space-between;
+}
 .layout-logo{
+   position: relative;
+   float: left;
+   left: 0px;
+   height: 90%;
+}
+.layout-nav{
+    margin: 0 auto;
+    margin-right: 20px;
+}
+
+.sider-left{
+    display: flex;
+    justify-content: center;
+}
+.sider-search{
     width: 150px;
     height: 30px;
     background: #5b6270;
     border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 15px;
-    left: 0px;
 	color: white;
-}
-.layout-nav{
-    width: 420px;
-    margin: 0 auto;
-    margin-right: 20px;
+    margin: 10px 0;
 }
 
 .topbar{
@@ -52,16 +65,16 @@
     <div class="layout">
         <Layout>
             <Header style="background: black;">
-                <Menu mode="horizontal" theme="dark" style="background: black;" active-name="1">
-					<Input class="layout-logo" search placeholder="输入关键字" />
+                <Menu mode="horizontal" theme="dark" class="Menu" active-name="1">
+                    <img src="../images/logo.png" class="layout-logo"/>
                     <div class="layout-nav">
                         <MenuItem name="1">
                             <Icon type="ios-navigate"></Icon>
-                            上传
+                            上传代码片
                         </MenuItem>
                         <MenuItem name="2">
                             <Icon type="ios-keypad"></Icon>
-                            API
+                            极简API
                         </MenuItem>
                         <MenuItem name="3">
                             <Icon type="ios-analytics"></Icon>
@@ -69,14 +82,15 @@
                         </MenuItem>
                         <MenuItem name="4">
                             <Icon type="ios-paper"></Icon>
-                            帮助与支持
+                            支持一下
                         </MenuItem>
                     </div>
                 </Menu>
             </Header>
             <Layout>
-                <Sider hide-trigger :style="{background: '#fff'}">
+                <Sider hide-trigger :style="{background: '#fff'}" class="sider-left">
                     <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+                        <Input search placeholder="输入关键字" class="sider-search" />
                         <Submenu name="1">
                             <template slot="title">
                                 <Icon type="ios-navigate"></Icon>
