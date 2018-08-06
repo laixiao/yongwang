@@ -10,9 +10,10 @@ fs.open('./src/config/env.js', 'w', function (err, fd) {
     fs.write(fd, buf, 0, buf.length, 0, function (err, written, buffer){});
 });
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: '/dist/',
+        publicPath: './',
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
@@ -39,6 +40,12 @@ module.exports = merge(webpackBaseConfig, {
             filename: '../index_prod.html',
             template: './src/template/index.ejs',
             inject: false
-        })
+        }),
+        new CopyWebpackPlugin([
+            {
+              from: 'node_modules/monaco-editor-core/min/vs',
+              to: 'vs',
+            }
+        ])
     ]
 });

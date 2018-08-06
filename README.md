@@ -3,6 +3,4 @@
 
 https://laixiao.github.io/yongwang/html/index.html
 
-https://laixiao.github.io/yongwang/CocosCode/index.html
-
-https://laixiao.github.io/yongwang/CocosCode/index_prod.html
+https://laixiao.github.io/yongwang/CocosCode/dist/index_prod.html
