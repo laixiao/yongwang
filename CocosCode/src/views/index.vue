@@ -188,7 +188,7 @@
 						</div>
 						<div class="content_d2">
 							<img class="content_d2_img" src="../images/phone16.png" />
-							<iframe class="iframe" :src="'http://'+host+'/' + codeArry[i0].items[i1].gameurl"></iframe>
+							<iframe class="iframe" :src="'https://'+this.host+'/yongwang/CocosCode/'+this.codeArry[this.i0].items[this.i1].gameurl"></iframe>
 							<Button class="download-bt" icon="ios-download-outline" type="info" shape="circle" @click="downloadbt"></Button>
 							<div class="qr_div" v-show="showQr" @click="preview_bt">
 								<canvas id="qr_canvas"></canvas>
@@ -315,6 +315,8 @@
 				window.open('https://laixiao.github.io/yongwang/CocosCode/zip/RichText.zip')
 			},
 			preview_bt(){
+				//本地预览：	'http://'+host+'/' + codeArry[i0].items[i1].gameurl
+				//线上预览：	'https://'+this.host+'/yongwang/CocosCode/'+this.codeArry[this.i0].items[this.i1].gameurl
 				if(this.showQr){
 					this.showQr = false;
 				}else{
