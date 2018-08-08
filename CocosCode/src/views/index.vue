@@ -154,7 +154,7 @@
 						</Breadcrumb>
 						<div class="topbar_tab2">
 							<Button type="primary" shape="circle" icon="md-refresh" style="margin-right: 20px;" @click="reset">重置</Button>
-							<Button type="primary" shape="circle" icon="ios-cloud-download-outline" @click="downloadbt">下载</Button>
+							<Button type="primary" shape="circle" icon="md-copy" v-clipboard:success="onCopy" v-clipboard:error="onError" v-clipboard:copy="codeArry[i0].items[i1].code">一键复制</Button>
 							<div class="topbar_tab2_qr">
 								<Button type="dashed" @click="preview_bt">
 									<Icon type="md-qr-scanner" /> 预览二维码</Button>
@@ -172,7 +172,7 @@
 						<div class="content_d2">
 							<img class="content_d2_img" src="../images/phone16.png" />
 							<iframe class="iframe" :src="codeArry[i0].items[i1].gameurl"></iframe>
-							<!-- <Button class="download-bt" size="large" icon="ios-download-outline" type="info" shape="circle"></Button> -->
+							<Button class="download-bt" size="large" icon="ios-download-outline" type="info" shape="circle" @click="downloadbt"></Button>
 						</div>
 					</Content>
 				</Layout>
@@ -184,10 +184,11 @@
 <script>
 	import MonacoEditor from 'vue-monaco-editor';
 	import QRCode from 'qrcode';
+	import VueClipboard from 'vue-clipboard2';
 
 	export default {
 		components: {
-			MonacoEditor,QRCode
+			MonacoEditor,VueClipboard
 		},
 		data() {
 			return {
@@ -267,15 +268,25 @@
 				// console.log("=========", e);
 			},
 			reset() {
-				this.editor.setValue(this.codeArry[this.i0].items[this.i1].code)
+					this.editor.setValue(this.codeArry[this.i0].items[this.i1].code)
+					this.$Message.success('重置成功');
 			},
 			downloadbt() {
-				//https://blog.csdn.net/qinyuhua93/article/details/79206150
-					window.location.href = "https://github.com/laixiao/yongwang";
-					alert("代码包路径：yongwang/CocosCode/games/Action")
+// 			window.location.href = "https://github.com/laixiao/yongwang";
+// 				this.$Notice.success({
+// 						title: '源码放在github仓库,路径为:',
+// 						desc: 'yongwang/CocosCode/games'
+// 				});
+					
 			},
 			preview_bt(){
-					alert("开发中...")
+					this.$Message.warning('开发中...');
+			},
+			onCopy: function (e) {
+					this.$Message.success('复制成功');
+			},
+			onError: function (e) {
+					this.$Message.error('复制失败,请刷新重试');
 			}
 			
 
