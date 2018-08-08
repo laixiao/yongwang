@@ -21,6 +21,7 @@
     "vue": "^2.5.16",
     "vue-clipboard2": "^0.2.1",
     "vue-monaco-editor": "0.0.19",
+    "vue-qart": "^2.2.0",
     "vue-router": "^2.8.1"
   },
   "devDependencies": {

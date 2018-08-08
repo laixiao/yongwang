@@ -88,13 +88,13 @@
 		margin-right: 10px;
 	}
 
+	 /*	右边预览 */
 	.preview {
 		background-image: url(../images/phone16.png);
 		background-size: 100%;
 		display: flex;
 		justify-content: center;
 	}
-
 	.iframe {
 		position: absolute;
 		left: 16px;
@@ -102,19 +102,36 @@
 		width: 295px;
 		height: 510px;
 	}
-
 	.download-bt {
 		position: absolute;
-		left: 146px;
-		bottom: 32px;
+		left: 139px;
+		bottom: 25px;
+		width: 50px !important;
+		height: 50px !important;;
 	}
+	.qr_div{
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,.5);
+		display: flex;
+		justify-content: center;
+	}
+	#qr_canvas{
+		left: 139px;
+		top: 25px;
+	}
+	
 </style>
 <template>
 	<div class="layout">
 		<Layout>
 			<Header style="background: black;">
-				<Menu mode="horizontal" theme="dark" class="Menu" active-name="1">
-					<img id="qrcode_img" src="../images/logo.png" class="layout-logo" />
+				<Menu @on-select="clickTopItem" mode="horizontal" theme="dark" class="Menu" active-name="0">
+					<img src="../images/logo.png" class="layout-logo" />
+					
 					<div class="layout-nav">
 						<MenuItem name="1">
 						<Icon type="ios-cloud-upload" /> 贡献代码片
@@ -123,7 +140,7 @@
 						<Icon type="ios-book" /> 极简API
 						</MenuItem>
 						<MenuItem name="3">
-						<Icon type="logo-github" /> Github
+							<Icon type="logo-github" /> Github
 						</MenuItem>
 						<MenuItem name="4">
 						<Icon type="ios-heart" /> 支持
@@ -171,8 +188,11 @@
 						</div>
 						<div class="content_d2">
 							<img class="content_d2_img" src="../images/phone16.png" />
-							<iframe class="iframe" :src="codeArry[i0].items[i1].gameurl"></iframe>
-							<Button class="download-bt" size="large" icon="ios-download-outline" type="info" shape="circle" @click="downloadbt"></Button>
+							<iframe class="iframe" :src="'../../'+codeArry[i0].items[i1].gameurl"></iframe>
+							<Button class="download-bt" icon="ios-download-outline" type="info" shape="circle" @click="downloadbt"></Button>
+							<div class="qr_div" v-show="showQr" @click="preview_bt">
+								<canvas id="qr_canvas"></canvas>
+							</div>
 						</div>
 					</Content>
 				</Layout>
@@ -184,14 +204,14 @@
 <script>
 	import MonacoEditor from 'vue-monaco-editor';
 	import QRCode from 'qrcode';
-	import VueClipboard from 'vue-clipboard2';
 
 	export default {
 		components: {
-			MonacoEditor,VueClipboard
+			MonacoEditor,QRCode
 		},
 		data() {
 			return {
+				host: window.location.host,
 				options: {
 					selectOnLineNumbers: false
 				},
@@ -209,7 +229,7 @@
 									'\tconsole.log("Hello!1111111111111111");',
 									'}'
 								].join('\n'),
-								gameurl: '../../games/RichText/web-mobile/index.html',
+								gameurl: 'games/RichText/web-mobile/index.html',
 							},
 							{
 								name: '0-1',
@@ -219,7 +239,7 @@
 									'\tconsole.log("Hello 2222222222222!");',
 									'}'
 								].join('\n'),
-								gameurl: '../../games/Action/web-mobile/index.html',
+								gameurl: 'games/Action/web-mobile/index.html',
 							},
 						]
 					},
@@ -235,7 +255,7 @@
 									'\tconsole.log("Hello 33333333333!");',
 									'}'
 								].join('\n'),
-								gameurl: '../../games/RichText/web-mobile/index.html',
+								gameurl: 'games/RichText/web-mobile/index.html',
 							},
 							{
 								name: '1-1',
@@ -245,12 +265,13 @@
 									'\tconsole.log("Hello 444444444444444!");',
 									'}'
 								].join('\n'),
-								gameurl: '../../games/Action/web-mobile/index.html',
+								gameurl: 'games/Action/web-mobile/index.html',
 							},
 						]
 					}
 				],
-
+				showQr: false,
+				
 			}
 		},
 		methods: {
@@ -260,34 +281,62 @@
 			onCodeChange(editor) {
 				// console.log(this.editor.getValue());
 			},
+			clickTopItem(e) {
+				switch (e){
+					case '1':
+						this.$Message.warning('开发中...');
+						break;
+					case '2':
+						this.$Message.warning('开发中...');
+						break;
+					case '3':
+						window.open("https://github.com/laixiao/yongwang");
+						break;
+					case '4':
+						this.$Message.warning('开发中...');
+						break;
+						
+					default:
+						break;
+				}
+			},
 			clickItem(e) {
+				// console.log("=========", e);
 				var arry = e.split('-');
 				this.i0 = parseInt(arry[0]);
 				this.i1 = parseInt(arry[1])
 				this.editor.setValue(this.codeArry[this.i0].items[this.i1].code)
-				// console.log("=========", e);
 			},
 			reset() {
 					this.editor.setValue(this.codeArry[this.i0].items[this.i1].code)
 					this.$Message.success('重置成功');
 			},
 			downloadbt() {
-// 			window.location.href = "https://github.com/laixiao/yongwang";
-// 				this.$Notice.success({
-// 						title: '源码放在github仓库,路径为:',
-// 						desc: 'yongwang/CocosCode/games'
-// 				});
-					
+				window.open('https://laixiao.github.io/yongwang/CocosCode/zip/RichText.zip')
 			},
 			preview_bt(){
-					this.$Message.warning('开发中...');
+				if(this.showQr){
+					this.showQr = false;
+				}else{
+					this.showQr = true;
+					this.$Notice.open({
+							title: '打开手机，扫码预览',
+					});
+					var txt = this.host+'/yongwang/CocosCode/'+this.codeArry[this.i0].items[this.i1].gameurl;
+					QRCode.toCanvas(document.getElementById('qr_canvas'), txt, function (error) {
+						if (error){
+							console.error(error)
+						}
+					})
+				}
 			},
 			onCopy: function (e) {
 					this.$Message.success('复制成功');
 			},
 			onError: function (e) {
 					this.$Message.error('复制失败,请刷新重试');
-			}
+			},
+
 			
 
 		}

@@ -6,10 +6,12 @@ import Util from './libs/util';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 import VueClipboard from 'vue-clipboard2';
+import QRCode from 'qrcode';
 
 Vue.use(VueRouter);
 Vue.use(iView);
 Vue.use(VueClipboard)
+Vue.use(QRCode)
 
 // 路由配置
 const RouterConfig = {
