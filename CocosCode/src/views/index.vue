@@ -188,7 +188,7 @@
 						</div>
 						<div class="content_d2">
 							<img class="content_d2_img" src="../images/phone16.png" />
-							<iframe class="iframe" :src="'../../'+codeArry[i0].items[i1].gameurl"></iframe>
+							<iframe class="iframe" :src="'http://'+host+'/' + codeArry[i0].items[i1].gameurl"></iframe>
 							<Button class="download-bt" icon="ios-download-outline" type="info" shape="circle" @click="downloadbt"></Button>
 							<div class="qr_div" v-show="showQr" @click="preview_bt">
 								<canvas id="qr_canvas"></canvas>
@@ -304,7 +304,7 @@
 				// console.log("=========", e);
 				var arry = e.split('-');
 				this.i0 = parseInt(arry[0]);
-				this.i1 = parseInt(arry[1])
+				this.i1 = parseInt(arry[1]);
 				this.editor.setValue(this.codeArry[this.i0].items[this.i1].code)
 			},
 			reset() {
@@ -322,7 +322,7 @@
 					this.$Notice.open({
 							title: '打开手机，扫码预览',
 					});
-					var txt = this.host+'/yongwang/CocosCode/'+this.codeArry[this.i0].items[this.i1].gameurl;
+					var txt = 'https://'+this.host+'/yongwang/CocosCode/'+this.codeArry[this.i0].items[this.i1].gameurl;
 					QRCode.toCanvas(document.getElementById('qr_canvas'), txt, function (error) {
 						if (error){
 							console.error(error)
