@@ -152,7 +152,7 @@
 				<!-- 左边列表 -->
 				<Sider hide-trigger :style="{background: '#fff'}" class="sider-left">
 					<Menu theme="light" width="200px" @on-select="clickItem" :open-names="['0']" active-name="0-0">
-						<Input search placeholder="输入关键字" class="sider-search" />
+						<Input disabled="false" search placeholder="输入关键字" class="sider-search" @on-focus="search_focus"/>
 						<Submenu v-for="(item, index) in codeArry" :name="item.name">
 							<template slot="title">
 								<Icon :type="item.icon"></Icon>
@@ -188,7 +188,7 @@
 						</div>
 						<div class="content_d2">
 							<img class="content_d2_img" src="../images/phone16.png" />
-							<iframe class="iframe" :src="'https://'+this.host+'/yongwang/CocosCode/'+this.codeArry[this.i0].items[this.i1].gameurl"></iframe>
+							<iframe class="iframe" :src="'http://'+host+'/' + codeArry[i0].items[i1].gameurl"></iframe>
 							<Button class="download-bt" icon="ios-download-outline" type="info" shape="circle" @click="downloadbt"></Button>
 							<div class="qr_div" v-show="showQr" @click="preview_bt">
 								<canvas id="qr_canvas"></canvas>
@@ -310,6 +310,9 @@
 			reset() {
 					this.editor.setValue(this.codeArry[this.i0].items[this.i1].code)
 					this.$Message.success('重置成功');
+			},
+			search_focus(){
+					this.$Message.warning('开发中...');
 			},
 			downloadbt() {
 				window.open('https://laixiao.github.io/yongwang/CocosCode/zip/RichText.zip')
