@@ -27,46 +27,23 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
-        label: cc.Label,
-
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        this.node.zIndex = 10;
-    },
+    // onLoad () {},
 
     start () {
-        //.调用示例
-        // cc.game.emit("Toast", { c: "请先邀请对手应战"})
-        // cc.game.emit("Toast", { c: "请先邀请对手应战", t: 2.5})
 
-        cc.game.on("Toast",function(event){
-            // console.log(event)
-            if(event.t){
-                this.show2(event.c, event.t)
-            }else{
-                this.show(event.c)
-            }
-        },this)
     },
 
     // update (dt) {},
-
-    show(c){
-        this.node.active = true;
-        this.node.stopAllActions();
-        this.label.string = c;
-        this.node.runAction(cc.sequence(cc.fadeIn(0.2),cc.delayTime(1.2),cc.fadeOut(1.0)));
+    
+    Toast(){
+        cc.game.emit("Toast", { c: "Toast默认时长：1.2s" })
     },
-    //.内容、时间
-    show2(c,t){
-        this.node.active = true;
-        this.node.stopAllActions();
-        this.label.string = c;
-        this.node.runAction(cc.sequence(cc.fadeIn(0.2),cc.delayTime(t),cc.fadeOut(1.0)));
+    Toast5s(){
+        cc.game.emit("Toast", { c: "Toast自定义时长：5.0s", t: 5})
     },
-
 
 });

@@ -152,7 +152,7 @@
 				<!-- 左边列表 -->
 				<Sider hide-trigger :style="{background: '#fff'}" class="sider-left">
 					<Menu theme="light" width="200px" @on-select="clickItem" :open-names="['0']" active-name="0-0">
-						<Input disabled="false" search placeholder="输入关键字" class="sider-search" @on-focus="search_focus"/>
+						<Input search placeholder="输入关键字" class="sider-search" @on-focus="search_focus"/>
 						<Submenu v-for="(item, index) in codeArry" :name="item.name">
 							<template slot="title">
 								<Icon :type="item.icon"></Icon>
@@ -162,6 +162,7 @@
 						</Submenu>
 					</Menu>
 				</Sider>
+				 <!--	中间和右边 -->
 				<Layout :style="{padding: '0 0px 10px'}">
 					<div class="topbar">
 						<Breadcrumb class="topbar_tab1">
@@ -196,10 +197,11 @@
 						</div>
 					</Content>
 				</Layout>
-
+				
 			</Layout>
 		</Layout>
 	</div>
+	
 </template>
 <script>
 	import MonacoEditor from 'vue-monaco-editor';
@@ -223,13 +225,13 @@
 						icon: 'ios-navigate',
 						items: [{
 								name: '0-0',
-								title: 'RichText',
+								title: '提示',
 								code: [
 									'function x() {',
 									'\tconsole.log("Hello!1111111111111111");',
 									'}'
 								].join('\n'),
-								gameurl: 'games/RichText/web-mobile/index.html',
+								gameurl: 'games/Toast/web-mobile/index.html',
 							},
 							{
 								name: '0-1',
@@ -271,6 +273,7 @@
 					}
 				],
 				showQr: false,
+				EmailData: '',
 				
 			}
 		},
@@ -284,10 +287,10 @@
 			clickTopItem(e) {
 				switch (e){
 					case '1':
-						this.$Message.warning('开发中...');
+						window.open("https://github.com/laixiao/yongwang/pulls");
 						break;
 					case '2':
-						this.$Message.warning('开发中...');
+						window.open("https://game.zuiqiangyingyu.net/wb_webview/common/doc/api/index.html");
 						break;
 					case '3':
 						window.open("https://github.com/laixiao/yongwang");
@@ -312,7 +315,7 @@
 					this.$Message.success('重置成功');
 			},
 			search_focus(){
-					this.$Message.warning('开发中...');
+					this.$Message.warning('搜索功能暂未开放');
 			},
 			downloadbt() {
 				window.open('https://laixiao.github.io/yongwang/CocosCode/zip/RichText.zip')
@@ -341,6 +344,19 @@
 			onError: function (e) {
 					this.$Message.error('复制失败,请刷新重试');
 			},
+			sendEmail(){
+					var objFrm = document.frmEmail; 
+					var objFrmOutLook = document.frmEmailOutLook; 
+					var msg = ""; 
+					msg += "姓名: " + objFrm.name.value + "  "; 
+					msg += "电话: " + objFrm.phone.value + "  "; 
+					msg += "网址: " + objFrm.website.value + "  "; 
+					msg += "主题: " + objFrm.subject.value + "  "; 
+					msg += "内容: " + objFrm.message.value + "  "; 
+					objFrmOutLook.message.value = msg; 
+					objFrmOutLook.action = "mailto:2515097216@qq.com?subject=" + objFrm.subject.value; 
+					objFrmOutLook.submit(); 
+			}
 
 			
 
